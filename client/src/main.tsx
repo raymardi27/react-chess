@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store, type RootState} from "./store";
 import {lookingForMatch, attemptMove} from "./slices/gameSlice";
+import Board from './components/Board';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function App() {
       <p>FEN: {fen}</p>
       <p>Turn: {turn === "w"? "White" : turn === "b" ? "Black" : "-"}</p>
 
-      {/* TODO: Add chessboard component */}
+      <Board />
 
       {status === "playing" && (
         <div style={{ marginTop: 12 }}>

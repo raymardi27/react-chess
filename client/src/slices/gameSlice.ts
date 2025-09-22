@@ -19,7 +19,7 @@ type GameState = {
 
 const initialState: GameState = {
     status: "idle",
-    fen: "startpos",
+    fen: "start",
     turn: null
 };
 
