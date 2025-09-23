@@ -38,7 +38,7 @@ async function waitForDb() {
 async function main() {
 
     // start DB
-    await sh('focker', ['compose','-f', 'docker-compose.dev.yml','up','-d'], {cwd: resolve(__dirname, '..')});
+    await sh('docker', ['compose','-f', 'docker-compose.dev.yml','up','-d'], {cwd: resolve(__dirname, '..')});
     
     // wait for it to be ready
     await waitForDb();
