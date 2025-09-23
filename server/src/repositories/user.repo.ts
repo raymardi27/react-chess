@@ -11,7 +11,7 @@ export type DBUser = {
 
 export async function getByEmail(email: string): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
-        `select id, email, username, created_at, updated_at
+        `select *
         from users 
         where email = $1`,
         [email]
@@ -21,7 +21,7 @@ export async function getByEmail(email: string): Promise<DBUser | null> {
 
 export async function getById(id: number): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
-        `select id, email, username, created_at, updated_at
+        `select *
         from users 
         where id = $1`,
         [id]
