@@ -1,10 +1,11 @@
 // src/middleware/rateLimit.js
+import type { Request, Response, NextFunction } from 'express';
 
 export function rateLimit(options: {
     windowMs: number;
     max: number;
     message?: string;
-}): (req: any, res: any, next: any) => void {
+}): (req: Request, res: Response, next: NextFunction) => void {
     const requests = new Map();
 
     return (req, res, next) => {
