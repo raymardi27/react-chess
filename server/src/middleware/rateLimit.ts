@@ -1,30 +1,27 @@
 // src/middleware/rateLimit.js
 import type { Request, Response, NextFunction } from 'express';
 
-export function rateLimit(options: {
-    windowMs: number;
-    max: number;
-    message?: string;
-}): (req: Request, res: Response, next: NextFunction) => void {
-    const requests = new Map();
+type Opts = { windowMs: number; max: number};
+type Bucket = { count: number; resetAt: number };
+const store = new Map<string, Bucket>();
 
-    return (req, res, next) => {
+export function rateLimit(opts: Opts) {
+    const { windowMs, max } = opts;
+    return (req: Request, res: Response, next: NextFunction) => {
+        const key = req.ip ?? "unknown";
         const now = Date.now();
-        const windowStart = now - options.windowMs;
-        const ip = req.ip;
-
-        if (!requests.has(ip)) {
-            requests.set(ip, []);
+        const b = store.get(key);
+        if (!b || now > b.resetAt) {
+            store.set(key, {count: 1, resetAt: now + windowMs });
+            return next();
         }
-
-        const timestamps = requests.get(ip).filter((timestamp: number) => timestamp > windowStart);
-        timestamps.push(now);
-        requests.set(ip, timestamps);
-
-        if (timestamps.length > options.max) {
-            return res.status(429).json({ error: options.message || 'Too many requests, please try again later.' });
+        if (b.count >= max) {
+            const retry = Math.ceil((b.resetAt - now) / 1000);
+            res.setHeader("Retry-After", String(retry));
+            return res.status(420).json({error: "Too Many Requests"});
         }
-
+        b.count++;
         next();
     };
 }
+
