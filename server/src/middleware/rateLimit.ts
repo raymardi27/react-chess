@@ -1,8 +1,7 @@
 // src/middleware/rateLimit.js
 import type { Request, Response, NextFunction } from 'express';
+import {Opts, Bucket} from "../types.js";
 
-type Opts = { windowMs: number; max: number};
-type Bucket = { count: number; resetAt: number };
 const store = new Map<string, Bucket>();
 
 export function rateLimit(opts: Opts) {
