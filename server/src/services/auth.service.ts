@@ -2,7 +2,7 @@ import { randomBytes, scrypt as _scrypt, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { SignJWT, jwtVerify } from "jose";
 import * as Users from "../repositories/user.repo.js";
-import { PublicUser } from "../types.js";
+import { PublicUser, DBUser } from "../types.js";
 
 const scrypt = promisify(_scrypt) as (
     password: string | Buffer,
@@ -49,9 +49,9 @@ export async function verifyJwt<T = any>(token: string): Promise<T> {
 }
 
 // public Mapping -- apparently a convenient way to see what the mapping is for the public
-function toPublic(u: Users.DBUser): PublicUser {
+function toPublic(u: DBUser): PublicUser {
     return {
-        id: string(u.id),
+        id: String(u.id),
         email: u.email,
         username: u.username,
         createdAt: u.created_at.toISOString(),
@@ -69,7 +69,7 @@ export async function signup(email: string, username: string, password: string) 
     }
     const password_hash = await hashPassword(password);
     const user = await Users.createUser(email, password_hash, username);
-    const jwt = await signJwt({sub: string(user.id), email: user.email});
+    const jwt = await signJwt({sub: String(user.id), email: user.email});
     return {user: toPublic(user), jwt};
 }
 
@@ -83,7 +83,7 @@ export async function login(email: string, password: string) {
     if (!user) bad("user not found");
     const ok = await verifyPassword(password, user!.password_hash);
     if (!ok) bad("invalid password");
-    const jwt = await signJwt({ sub: string(user!.id), email: user!.email });
+    const jwt = await signJwt({ sub: String(user!.id), email: user!.email });
     return {user: toPublic(user!), jwt};
 }
 
