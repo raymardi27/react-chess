@@ -1,15 +1,17 @@
 import { pool } from '../db/pool.js';
 
-export type DBUser = {
-    id: number;
-    email:string;
-    username: string | null;
-    password_hash: string;
-    created_at: Date;
-    updated_at: Date;
-};
+import {DBUser} from "../types.js"
 
-export async function getByEmail(email: string): Promise<DBUser | null> {
+// DBUser = {
+//     id: number;
+//     email:string;
+//     username: string | null;
+//     password_hash: string;
+//     created_at: Date;
+//     updated_at: Date;
+// };
+
+export async function getByEmail(email: String): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
         `select *
         from users 
@@ -19,7 +21,7 @@ export async function getByEmail(email: string): Promise<DBUser | null> {
     return rows[0] ?? null;
 }
 
-export async function getById(id: number): Promise<DBUser | null> {
+export async function getById(id: Number): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
         `select *
         from users 
