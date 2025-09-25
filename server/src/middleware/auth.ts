@@ -30,7 +30,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
         if(!token) return res.status(401).json({error: "Unauthorized"});
 
         const { payload } = await jwtVerify(token, secret());
-        (req as any).user = {sub: String(payload.sub), email: payload.email };
+        (req as any).user = {sub: string(payload.sub), email: payload.email };
         next();
     } catch {
         res.status(401).json({ error: "Unauthorized" });

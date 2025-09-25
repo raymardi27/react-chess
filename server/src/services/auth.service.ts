@@ -51,7 +51,7 @@ export async function verifyJwt<T = any>(token: string): Promise<T> {
 // public Mapping -- apparently a convenient way to see what the mapping is for the public
 function toPublic(u: Users.DBUser): PublicUser {
     return {
-        id: String(u.id),
+        id: string(u.id),
         email: u.email,
         username: u.username,
         createdAt: u.created_at.toISOString(),
@@ -69,7 +69,7 @@ export async function signup(email: string, username: string, password: string) 
     }
     const password_hash = await hashPassword(password);
     const user = await Users.createUser(email, password_hash, username);
-    const jwt = await signJwt({sub: String(user.id), email: user.email});
+    const jwt = await signJwt({sub: string(user.id), email: user.email});
     return {user: toPublic(user), jwt};
 }
 
@@ -83,7 +83,7 @@ export async function login(email: string, password: string) {
     if (!user) bad("user not found");
     const ok = await verifyPassword(password, user!.password_hash);
     if (!ok) bad("invalid password");
-    const jwt = await signJwt({ sub: String(user!.id), email: user!.email });
+    const jwt = await signJwt({ sub: string(user!.id), email: user!.email });
     return {user: toPublic(user!), jwt};
 }
 

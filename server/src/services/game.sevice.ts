@@ -1,7 +1,7 @@
 import * as Games from "../repositories/game.repo.js";
 import * as Moves from "../repositories/move.repo.js";
 
-export async function getGameWithMoves(id: String) {
+export async function getGameWithMoves(id: string) {
     const game = await Games.getById(id);
     if(!game) {
         return null;

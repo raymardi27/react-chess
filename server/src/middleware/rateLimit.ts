@@ -16,7 +16,7 @@ export function rateLimit(opts: Opts) {
         }
         if (b.count >= max) {
             const retry = Math.ceil((b.resetAt - now) / 1000);
-            res.setHeader("Retry-After", String(retry));
+            res.setHeader("Retry-After", string(retry));
             return res.status(420).json({error: "Too Many Requests"});
         }
         b.count++;

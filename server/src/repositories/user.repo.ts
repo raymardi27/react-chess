@@ -11,7 +11,7 @@ import {DBUser} from "../types.js"
 //     updated_at: Date;
 // };
 
-export async function getByEmail(email: String): Promise<DBUser | null> {
+export async function getByEmail(email: string): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
         `select *
         from users 
