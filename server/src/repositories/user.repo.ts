@@ -13,7 +13,7 @@ import {DBUser} from "../types.js"
 
 export async function getByEmail(email: string): Promise<DBUser | null> {
     const {rows} = await pool.query<DBUser>(
-        `select *
+        `select id, username, email, password as password_hash, created_at, updated_at
         from users 
         where email = $1`,
         [email]
@@ -37,7 +37,7 @@ export async function createUser(
     username: string | null
 ): Promise<DBUser> {
     const {rows} = await pool.query<DBUser>(
-        `insert into users (email, password_hash, username)
+        `insert into users (email, password, username)
         values ($1, $2, $3)
         returning id, email, username, created_at, updated_at`,
         [email, password_hash, username]

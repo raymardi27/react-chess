@@ -51,7 +51,7 @@ export type Opts = { windowMs: number; max: number};
 export type Bucket = { count: number; resetAt: number };
 
 export type Rule = {
-    type: "string" | "email";
+    type: string | "email";
     required?: boolean;
     min?: number;
     max?: number;

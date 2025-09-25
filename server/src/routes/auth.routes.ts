@@ -18,21 +18,21 @@ const router = Router();
 
 router.post(
     "/signup",
-    rateLimit({windowMs: 60 * 60 * 1000, max: 10, message: "Too many accounts created from this IP, please try again after an hour"}),
+    rateLimit({windowMs: 60 * 60 * 1000, max: 10}),
     validateBody(signupBody),
     AuthController.signup
 )
 
 router.post(
     "/login",
-    rateLimit({windowMs: 15 * 60 * 1000, max: 20, message: "Too many login attempts from this IP, please try again after 15 minutes"}),
+    rateLimit({windowMs: 15 * 60 * 1000, max: 20}),
     validateBody(loginBody),
     AuthController.login
 )
 
 router.post(
     "/logout", 
-    rateLimit({windowMs: 15 * 60 * 1000, max: 100, message: "Too many logout attempts from this IP, please try again after 15 minutes"}),
+    rateLimit({windowMs: 15 * 60 * 1000, max: 100}),
     AuthController.logout
 );
 

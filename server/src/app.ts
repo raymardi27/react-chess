@@ -6,7 +6,7 @@ import "./config/env.js";
 import {corsOptions} from "./config/cors.js";
 
 const app = express();
-app.use(cors(corsOptions));
+app.use(cors(corsOptions()));
 app.use(express.json());
 
 // Mount API 
