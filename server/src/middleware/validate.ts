@@ -1,14 +1,7 @@
 // src/middleware/validate.js
 import type { Request, Response, NextFunction } from 'express';
 
-type Rule = {
-    type: "string" | "email";
-    required?: boolean;
-    min?: number;
-    max?: number;
-};
-
-type Schema = Record<string, Rule>;
+import { Schema } from "../types.js"
 
 function isEmail(s: string) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

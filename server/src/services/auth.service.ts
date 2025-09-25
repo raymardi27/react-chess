@@ -2,6 +2,7 @@ import { randomBytes, scrypt as _scrypt, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { SignJWT, jwtVerify } from "jose";
 import * as Users from "../repositories/user.repo.js";
+import { PublicUser } from "../types.js";
 
 const scrypt = promisify(_scrypt) as (
     password: string | Buffer,
@@ -9,7 +10,7 @@ const scrypt = promisify(_scrypt) as (
     keylen: number
 ) => Promise<Buffer>;
 
-type PublicUser = { id: string, email: string, username: string | null; createdAt: string, updatedAt: string };
+
 
 // Password hashing
 async function hashPassword(password: string): Promise<string> {
