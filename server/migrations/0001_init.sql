@@ -19,7 +19,7 @@ create table if not exists games (
     updated_at timestamptz not null default now(),
     ended_at timestamptz
 );
-create index if not exists game_status_idx on game(status);
+create index if not exists game_status_idx on games(status);
 
 -- Move list for games
 create table if not exists moves (
