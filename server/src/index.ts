@@ -2,14 +2,10 @@
 import express from "express";
 import cors from "cors";
 import http from "http";
+import routes from "./routes/index.js";
 import { Server } from "socket.io";
 import { Chess } from "chess.js";
-
-
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+import app from "./app.js";
 
 const server = http.createServer(app);
 const io = new Server(server, {cors: {origin: "*"}});
